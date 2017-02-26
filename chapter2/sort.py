@@ -57,7 +57,7 @@ class Insertion(Sort):
         N = len(self.a)
         for i in range(N):
             for j in range(i, 0, -1):
-                if not self.less(a[j], a[j-1]):
+                if not self.less(self.a[j], self.a[j-1]):
                     continue
                 self.exch(self.a, j, j-1)
 
@@ -67,7 +67,34 @@ class Insertion(Sort):
         self.show(self.a)
 
 
+class Shell(Sort):
+    """
+    希尔排序
+    """
+    def __init__(self, a):
+        self.a = a
+
+    def sort(self):
+        N = len(self.a)
+        h = 1
+        while h < N/3:
+            h = 3*h + 1
+
+        while h >= 1:
+            for i in range(h, N, 1):
+                for j in range(i, h-1, -h):
+                    if not self.less(self.a[j], self.a[j-h]):
+                        continue
+                    self.exch(self.a, j, j-h)
+            h = int(h/3)
+
+    def main(self):
+        self.sort()
+        assert self.is_sorted(self.a)
+        self.show(self.a)
+
+
 if __name__ == '__main__':
-    a = [1, -1, 1, 2, 10, -2]
-    sort = Insertion(a)
+    a = [1, -1, 1, 2, 10, -1, 3]
+    sort = Shell(a)
     sort.main()
